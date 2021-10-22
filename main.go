@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"github.com/gocql/gocql"
 	"gopkg.in/inf.v0"
 	"sync"
@@ -12,15 +11,7 @@ import (
 	"time"
 )
 
-var Ctx context.Context
-var Engine string
-
 func main() {
-	Engine = `cassandra`
-	Engine = `mysql`
-
-	Ctx = context.Background()
-
 	//getMysqlRecords()
 	//return
 

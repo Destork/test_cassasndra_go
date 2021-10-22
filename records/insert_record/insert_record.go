@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gocql/gocql"
 	"log"
-	"test_cassandra_go"
+	"test_cassandra_go/config"
 	"test_cassandra_go/sessions/cassandra_session"
 	"test_cassandra_go/sessions/mysql_session"
 	"test_cassandra_go/transaction"
@@ -12,7 +12,7 @@ import (
 
 func InsertRecord(transaction transaction.Transaction) bool {
 	var isOk bool
-	if main.Engine == `cassandra` {
+	if config.GetEngine() == `cassandra` {
 		isOk = InsertCassandraTransaction(transaction)
 	} else {
 		isOk = InsertMysqlTransaction(transaction)
@@ -22,7 +22,7 @@ func InsertRecord(transaction transaction.Transaction) bool {
 
 func InsertRecords(transactions []transaction.Transaction) bool {
 	var isOk bool
-	if main.Engine == `cassandra` {
+	if config.GetEngine() == `cassandra` {
 		isOk = InsertCassandraRecords(transactions)
 	} else {
 		isOk = InsertMysqlRecords(transactions)
@@ -57,7 +57,7 @@ func InsertCassandraTransaction(tr transaction.Transaction) bool {
 		tr.PreviousBalance,
 		tr.RateExchange,
 		tr.SystemType,
-		tr.SystemId).WithContext(main.Ctx).Exec()
+		tr.SystemId).WithContext(config.GetContext()).Exec()
 
 	if err != nil {
 		fmt.Println(err)
@@ -113,14 +113,14 @@ func InsertMysqlTransaction(tr transaction.Transaction) bool {
 func InsertMysqlRecords(transactions []transaction.Transaction) bool {
 	db := mysql_session.GetMysqlConnect()
 
-	tx, err := db.BeginTx(main.Ctx, nil)
+	tx, err := db.BeginTx(config.GetContext(), nil)
 	if err != nil {
 		log.Fatal(err)
 		return false
 	}
 
 	for _, tr := range transactions {
-		_, err = tx.ExecContext(main.Ctx,
+		_, err = tx.ExecContext(config.GetContext(),
 			`
 			INSERT INTO transaction (
 				transaction__uuid,
@@ -167,7 +167,7 @@ func InsertMysqlRecords(transactions []transaction.Transaction) bool {
 func InsertCassandraRecords(transactions []transaction.Transaction) bool {
 	session := cassandra_session.GetCassandraSession()
 
-	b := session.NewBatch(gocql.UnloggedBatch).WithContext(main.Ctx)
+	b := session.NewBatch(gocql.UnloggedBatch).WithContext(config.GetContext())
 
 	for _, tr := range transactions {
 		b.Entries = append(b.Entries, gocql.BatchEntry{
