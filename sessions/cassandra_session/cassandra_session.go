@@ -58,6 +58,6 @@ func ReconnectCassandraSession() *gocql.Session {
 	return *instanceCassandra
 }
 
-func CloseCassandraConnect()  {
+func CloseCassandraConnect() {
 	(*instanceCassandra).Close()
 }

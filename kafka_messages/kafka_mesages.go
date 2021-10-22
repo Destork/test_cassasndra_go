@@ -8,11 +8,11 @@ import (
 
 func ReadMessageFromKafka(messageCh chan string) {
 	r := kafka.NewReader(kafka.ReaderConfig{
-		Brokers:   []string{"localhost:9092"},
-		GroupID:   "consumer-group-id",
-		Topic:     "topic-A",
-		MinBytes:  10e3, // 10KB
-		MaxBytes:  10e6, // 10MB
+		Brokers:  []string{"localhost:9092"},
+		GroupID:  "consumer-group-id",
+		Topic:    "topic-A",
+		MinBytes: 10e3, // 10KB
+		MaxBytes: 10e6, // 10MB
 	})
 
 	for {
@@ -32,7 +32,7 @@ func ReadMessageFromKafka(messageCh chan string) {
 func WriteMessageToKafka() {
 	w := &kafka.Writer{
 		Addr:     kafka.TCP("localhost:9092"),
-		Topic:   "topic-A",
+		Topic:    "topic-A",
 		Balancer: &kafka.LeastBytes{},
 	}
 

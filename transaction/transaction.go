@@ -10,15 +10,15 @@ import (
 
 type Transaction struct {
 	TransactionUuid gocql.UUID
-	UserId         int64
-	CreateTime     time.Time
-	SourceWalletId int64
+	UserId          int64
+	CreateTime      time.Time
+	SourceWalletId  int64
 	TargetWalletId  int64
 	Amount          *inf.Dec
 	PreviousBalance *inf.Dec
-	RateExchange *inf.Dec
-	SystemType string
-	SystemId   int64
+	RateExchange    *inf.Dec
+	SystemType      string
+	SystemId        int64
 }
 
 func UnmarshalMysqlTransaction(scanner *sql.Rows) (Transaction, error) {

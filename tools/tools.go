@@ -56,5 +56,5 @@ func FromStringToDec(s string) (*inf.Dec, bool) {
 }
 
 func RandInt64(min, max int64) int64 {
-	return int64(rand.Int63n(max - min + 1) + min)
+	return int64(rand.Int63n(max-min+1) + min)
 }
