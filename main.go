@@ -133,7 +133,18 @@ func main() {
 }
 
 func fillTestData(success chan bool, error chan transaction.Transaction) {
-	tr := transaction.Transaction{
+	tr := getTestTransaction()
+	isOk := insert_record.InsertRecord(tr)
+
+	if isOk {
+		success <- true
+	} else {
+		error <- tr
+	}
+}
+
+func getTestTransaction() transaction.Transaction {
+	return transaction.Transaction{
 		TransactionUuid: gocql.TimeUUID(),
 		UserId:          tools.RandInt64(1, 50),
 		CreateTime:      time.Now(),
@@ -144,12 +155,5 @@ func fillTestData(success chan bool, error chan transaction.Transaction) {
 		RateExchange:    tools.RandDecimal(inf.NewDec(1, 9), inf.NewDec(999999999999999999, 9)),
 		SystemType:      `exchange_order`,
 		SystemId:        int64(1),
-	}
-	isOk := insert_record.InsertRecord(tr)
-
-	if isOk {
-		success <- true
-	} else {
-		error <- tr
 	}
 }
