@@ -14,5 +14,4 @@ require (
 	github.com/hailocab/go-hostpool v0.0.0-20160125115350-e80d13ce29ed // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/pierrec/lz4 v2.6.1+incompatible // indirect
-	github.com/satori/go.uuid v1.2.0 // indirect
 )
