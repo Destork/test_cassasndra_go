@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gocql/gocql v0.0.0-20211015133455-b225f9b53fa1
-	github.com/segmentio/kafka-go v0.4.22
+	github.com/segmentio/kafka-go v0.4.23
 	gopkg.in/inf.v0 v0.9.1
 )
 
